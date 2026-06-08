@@ -365,6 +365,14 @@ function closeMenu() {
   hamburger.classList.remove('open');
 }
 
+document.addEventListener('click', (e) => {
+  const links = document.querySelector('.nav-links');
+  const hamburger = document.getElementById('hamburger');
+  if (links.classList.contains('open') && !links.contains(e.target) && !hamburger.contains(e.target)) {
+    closeMenu();
+  }
+});
+
 function toggleCart() {
   const sidebar = document.getElementById('cartSidebar');
   const overlay = document.getElementById('cartOverlay');
