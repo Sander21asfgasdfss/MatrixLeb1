@@ -346,7 +346,7 @@ function updateCartUI(cart) {
 
   const total = cartItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
   document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
-  const payText = getPaymentMethod() === 'cod' ? 'Order Processed' : `Pay $${total.toFixed(2)}`;
+  const payText = getPaymentMethod() === 'cod' ? 'Confirm Your Order' : `Pay $${total.toFixed(2)}`;
   document.getElementById('payBtnText').textContent = payText;
 }
 
@@ -413,7 +413,7 @@ function updateCheckoutSummary() {
     <div class="summary-total"><span>Total</span><span>$${total.toFixed(2)}</span></div>
   `;
 
-  const payLabel = getPaymentMethod() === 'cod' ? 'Order Processed' : `Pay $${total.toFixed(2)}`;
+  const payLabel = getPaymentMethod() === 'cod' ? 'Confirm Your Order' : `Pay $${total.toFixed(2)}`;
   document.getElementById('payBtnText').textContent = payLabel;
 }
 
