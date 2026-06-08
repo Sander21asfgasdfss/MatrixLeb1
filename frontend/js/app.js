@@ -601,6 +601,8 @@ function showOrderSuccess(order) {
       🚚 Estimated delivery: ${d.estimatedDays}
     </div>
   `;
+  document.getElementById('successIcon').textContent = isCod ? '📦' : '✅';
+  document.getElementById('successTitle').textContent = isCod ? 'Order Confirmed!' : 'Payment Successful!';
   document.getElementById('successOverlay').classList.add('open');
   saveOrder(order);
 }

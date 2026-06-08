@@ -516,8 +516,8 @@
 
   <div class="modal-overlay" id="successOverlay" onclick="closeSuccess(event)">
     <div class="modal modal-success" id="successModal" onclick="event.stopPropagation()">
-      <div class="success-icon">✅</div>
-      <h2>Payment Successful!</h2>
+      <div class="success-icon" id="successIcon">✅</div>
+      <h2 id="successTitle">Payment Successful!</h2>
       <p>Your order has been confirmed.</p>
       <div class="order-confirmation" id="orderConfirmation"></div>
       <button class="continue-btn" onclick="closeSuccess(); showPage('products')">Continue Shopping</button>
