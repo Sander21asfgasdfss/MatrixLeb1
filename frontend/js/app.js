@@ -700,6 +700,11 @@ async function loadAdminDashboard() {
     ]);
     const stats = await statsRes.json();
     const prodData = await productsRes.json();
+    if (stats.error || prodData.error) {
+      showToast('Session expired. Login again.');
+      adminLogout();
+      return;
+    }
     document.getElementById('adminStats').innerHTML = `
       <div class="admin-stat-card"><div class="stat-value">${stats.totalProducts}</div><div class="stat-label">Products</div></div>
       <div class="admin-stat-card"><div class="stat-value">${stats.totalOrders}</div><div class="stat-label">Orders</div></div>
@@ -723,6 +728,10 @@ function switchAdminTab(tab, btn) {
 
 function renderAdminProducts(prods) {
   const container = document.getElementById('adminProducts');
+  if (!Array.isArray(prods) || prods.length === 0) {
+    container.innerHTML = `<button class="admin-btn-add" onclick="openAdminProduct()">+ Add Product</button><div class="empty-state"><div class="empty-icon">📱</div><h3>No products</h3><p>Add your first product</p></div>`;
+    return;
+  }
   container.innerHTML = `
     <button class="admin-btn-add" onclick="openAdminProduct()">+ Add Product</button>
     <div style="overflow-x:auto">
