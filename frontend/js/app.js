@@ -122,7 +122,6 @@ function showPage(page) {
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
   document.querySelector(`.nav-link[data-page="${page}"]`).classList.add('active');
   if (page === 'orders') renderOrders();
-  closeMenu();
 }
 
 function renderOrders() {
@@ -351,34 +350,11 @@ function updateCartUI(cart) {
   document.getElementById('payBtnText').textContent = payText;
 }
 
-function toggleMenu() {
-  const links = document.querySelector('.nav-links');
-  const hamburger = document.getElementById('hamburger');
-  links.classList.toggle('open');
-  hamburger.classList.toggle('open');
-}
-
-function closeMenu() {
-  const links = document.querySelector('.nav-links');
-  const hamburger = document.getElementById('hamburger');
-  links.classList.remove('open');
-  hamburger.classList.remove('open');
-}
-
-document.addEventListener('click', (e) => {
-  const links = document.querySelector('.nav-links');
-  const hamburger = document.getElementById('hamburger');
-  if (links.classList.contains('open') && !links.contains(e.target) && !hamburger.contains(e.target)) {
-    closeMenu();
-  }
-});
-
 function toggleCart() {
   const sidebar = document.getElementById('cartSidebar');
   const overlay = document.getElementById('cartOverlay');
   sidebar.classList.toggle('open');
   overlay.classList.toggle('open');
-  closeMenu();
 }
 
 function selectPaymentMethod(el) {
