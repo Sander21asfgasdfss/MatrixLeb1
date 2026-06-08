@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MobileStore - Premium Phones</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand" onclick="showPage('products')">
+        <span class="brand-icon">📱</span>
+        <span class="brand-text">Mobile<span class="brand-accent">Store</span></span>
+      </div>
+      <div class="nav-links">
+        <a href="#" onclick="showPage('products')" class="nav-link active" data-page="products">Shop</a>
+        <a href="#" onclick="showPage('orders')" class="nav-link" data-page="orders">Orders</a>
+        <a href="#" onclick="showPage('about')" class="nav-link" data-page="about">About</a>
+        <a href="#" onclick="showPage('contact')" class="nav-link" data-page="contact">Contact</a>
+        <a href="#" onclick="showAdminLogin()" class="nav-link admin-link" data-page="admin">Admin</a>
+      </div>
+      <div class="nav-cart" onclick="toggleCart()">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </div>
+    </div>
+  </nav>
+
+  <div class="toast" id="toast"></div>
+
+  <main class="main-content">
+    <section id="products-page" class="page active">
+      <div class="container">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Latest Smartphones</h1>
+            <p class="page-subtitle">Discover the best phones at unbeatable prices</p>
+          </div>
+          <div class="header-actions">
+            <div class="search-box">
+              <input type="text" id="searchInput" placeholder="Search phones..." oninput="filterProducts()">
+            </div>
+            <select class="sort-select" id="sortSelect" onchange="filterProducts()">
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="rating">Highest Rated</option>
+            </select>
+          </div>
+        </div>
+        <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">All</button>
+          <button class="filter-btn" data-filter="Apple" onclick="setFilter('Apple', this)">Apple</button>
+          <button class="filter-btn" data-filter="Samsung" onclick="setFilter('Samsung', this)">Samsung</button>
+          <button class="filter-btn" data-filter="Google" onclick="setFilter('Google', this)">Google</button>
+          <button class="filter-btn" data-filter="OnePlus" onclick="setFilter('OnePlus', this)">OnePlus</button>
+          <button class="filter-btn" data-filter="Xiaomi" onclick="setFilter('Xiaomi', this)">Xiaomi</button>
+          <button class="filter-btn" data-filter="Nothing" onclick="setFilter('Nothing', this)">Nothing</button>
+        </div>
+        <div class="products-grid" id="productsGrid"></div>
+      </div>
+    </section>
+
+    <section id="orders-page" class="page">
+      <div class="container">
+        <h1 class="page-title">Your Orders</h1>
+        <p class="page-subtitle">View your order history</p>
+        <div id="ordersContainer">
+          <div class="empty-state">
+            <div class="empty-icon">📦</div>
+            <h3>No orders yet</h3>
+            <p>Complete a purchase to see your order history</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about-page" class="page">
+      <div class="container">
+        <div class="about-hero">
+          <h1 class="page-title">About MobileStore</h1>
+          <p class="page-subtitle">Your trusted source for premium smartphones since 2018</p>
+        </div>
+
+        <div class="about-story">
+          <h2>Our Story</h2>
+          <p>MobileStore was founded in 2018 with a simple mission: make the latest smartphones accessible to everyone. What started as a small online shop has grown into one of the most trusted mobile retailers, serving over 100,000 happy customers worldwide.</p>
+          <p>We partner directly with leading manufacturers like Apple, Samsung, Google, OnePlus, Xiaomi, and Nothing to bring you authentic devices at competitive prices. Every phone we sell comes with full warranty and our 30-day satisfaction guarantee.</p>
+        </div>
+
+        <div class="about-stats">
+          <div class="stat-card">
+            <span class="stat-icon">📱</span>
+            <span class="stat-number">50,000+</span>
+            <span class="stat-label">Phones Sold</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">⭐</span>
+            <span class="stat-number">100,000+</span>
+            <span class="stat-label">Happy Customers</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">🔒</span>
+            <span class="stat-number">8+ Years</span>
+            <span class="stat-label">Trusted Service</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-icon">🌍</span>
+            <span class="stat-number">30+</span>
+            <span class="stat-label">Countries Served</span>
+          </div>
+        </div>
+
+        <div class="about-values">
+          <h2>Our Values</h2>
+          <div class="values-grid">
+            <div class="value-card">
+              <div class="value-icon">🤝</div>
+              <h3>Trust & Transparency</h3>
+              <p>We believe in honest pricing, genuine products, and clear communication with every customer.</p>
+            </div>
+            <div class="value-card">
+              <div class="value-icon">🚀</div>
+              <h3>Innovation First</h3>
+              <p>We stay ahead of the curve, bringing you the latest technology the moment it hits the market.</p>
+            </div>
+            <div class="value-card">
+              <div class="value-icon">❤️</div>
+              <h3>Customer First</h3>
+              <p>Your satisfaction drives everything we do. From fast shipping to hassle-free returns, we've got you covered.</p>
+            </div>
+            <div class="value-card">
+              <div class="value-icon">🌱</div>
+              <h3>Sustainability</h3>
+              <p>We're committed to reducing e-waste through recycling programs and eco-friendly packaging initiatives.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-team">
+          <h2>Meet Our Leadership</h2>
+          <div class="team-grid">
+            <div class="team-card">
+              <div class="team-avatar">JD</div>
+              <h3>James Donovan</h3>
+              <span class="team-role">CEO & Founder</span>
+              <p>Visionary leader with 15+ years in the mobile industry.</p>
+            </div>
+            <div class="team-card">
+              <div class="team-avatar">SL</div>
+              <h3>Sarah Lee</h3>
+              <span class="team-role">Chief Technology Officer</span>
+              <p>Drives our platform innovation and customer experience.</p>
+            </div>
+            <div class="team-card">
+              <div class="team-avatar">MK</div>
+              <h3>Michael Kim</h3>
+              <span class="team-role">Head of Operations</span>
+              <p>Ensures every order reaches you fast and safely.</p>
+            </div>
+            <div class="team-card">
+              <div class="team-avatar">ER</div>
+              <h3>Emily Rodriguez</h3>
+              <span class="team-role">Customer Experience Director</span>
+              <p>Your happiness is her top priority.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact-page" class="page">
+      <div class="container">
+        <div class="contact-hero">
+          <h1 class="page-title">Get in Touch</h1>
+          <p class="page-subtitle">We'd love to hear from you. Reach out anytime.</p>
+        </div>
+
+        <div class="contact-grid">
+          <div class="contact-info-cards">
+            <div class="contact-card">
+              <div class="contact-card-icon">📍</div>
+              <h3>Visit Us</h3>
+              <p>Beirut, Hamra Street<br>Facing Bliss</p>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card-icon">📧</div>
+              <h3>Email Us</h3>
+              <p>
+                <a href="mailto:Itab09408@gmail.com">Itab09408@gmail.com</a>
+              </p>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card-icon">📞</div>
+              <h3>Call Us</h3>
+              <p>
+                <a href="tel:+9613091136">+961 3 091 136</a>
+              </p>
+            </div>
+            <div class="contact-card">
+              <div class="contact-card-icon">🕐</div>
+              <h3>Business Hours</h3>
+              <p>
+                Daily: 10:00 AM – 10:00 PM
+              </p>
+            </div>
+            <div class="contact-card contact-card-whatsapp">
+              <div class="contact-card-icon">💬</div>
+              <h3>WhatsApp</h3>
+              <p>
+                <a href="https://wa.me/9613091136" target="_blank" rel="noopener">Chat with us on WhatsApp</a>
+              </p>
+            </div>
+          </div>
+
+          <div class="contact-form-wrap">
+            <h2>Send Us a Message</h2>
+            <form class="contact-form" id="contactForm" onsubmit="submitContact(event)">
+              <div class="form-group">
+                <label for="contactName">Your Name</label>
+                <input type="text" id="contactName" placeholder="John Smith" required>
+              </div>
+              <div class="form-group">
+                <label for="contactEmail">Email Address</label>
+                <input type="email" id="contactEmail" placeholder="john@example.com" required>
+              </div>
+              <div class="form-group">
+                <label for="contactSubject">Subject</label>
+                <input type="text" id="contactSubject" placeholder="How can we help?" required>
+              </div>
+              <div class="form-group">
+                <label for="contactMessage">Message</label>
+                <textarea id="contactMessage" rows="5" placeholder="Tell us more about your inquiry..." required></textarea>
+              </div>
+              <button type="submit" class="contact-submit-btn">Send Message</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="contact-social">
+          <h2>Follow Us</h2>
+          <div class="social-links">
+            <a href="#" class="social-link" aria-label="Facebook">📘 Facebook</a>
+            <a href="#" class="social-link" aria-label="Twitter">🐦 Twitter</a>
+            <a href="#" class="social-link" aria-label="Instagram">📸 Instagram</a>
+            <a href="#" class="social-link" aria-label="YouTube">🎥 YouTube</a>
+            <a href="#" class="social-link" aria-label="LinkedIn">💼 LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="admin-page" class="page">
+      <div class="container">
+        <div class="admin-header">
+          <h1 class="page-title">Admin Panel</h1>
+          <p class="page-subtitle">Manage your store</p>
+          <button class="admin-logout-btn" onclick="adminLogout()">Logout</button>
+        </div>
+        <div class="admin-dashboard" id="adminDashboard">
+          <div class="admin-stats" id="adminStats"></div>
+          <div class="admin-tabs">
+            <button class="admin-tab active" data-tab="products" onclick="switchAdminTab('products', this)">Products</button>
+            <button class="admin-tab" data-tab="orders" onclick="switchAdminTab('orders', this)">Orders</button>
+            <button class="admin-tab" data-tab="messages" onclick="switchAdminTab('messages', this)">Messages</button>
+          </div>
+          <div class="admin-content">
+            <div id="adminProducts" class="admin-panel active"></div>
+            <div id="adminOrders" class="admin-panel"></div>
+            <div id="adminMessages" class="admin-panel"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="adminLoginOverlay">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Admin Login</h2>
+        <button class="modal-close" onclick="closeAdminLogin()">&times;</button>
+      </div>
+      <form onsubmit="adminLogin(event)">
+        <div class="form-group">
+          <label for="adminUser">Username</label>
+          <input type="text" id="adminUser" placeholder="admin" required>
+        </div>
+        <div class="form-group">
+          <label for="adminPass">Password</label>
+          <input type="password" id="adminPass" placeholder="Enter password" required>
+        </div>
+        <button type="submit" class="checkout-btn" style="margin-top:8px">Login</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="adminProductOverlay">
+    <div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 id="adminProductModalTitle">Add Product</h2>
+        <button class="modal-close" onclick="closeAdminProduct()">&times;</button>
+      </div>
+      <form id="adminProductForm" onsubmit="saveAdminProduct(event)">
+        <input type="hidden" id="adminProductId">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="apName">Product Name</label>
+            <input type="text" id="apName" required>
+          </div>
+          <div class="form-group">
+            <label for="apBrand">Brand</label>
+            <input type="text" id="apBrand" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="apPrice">Price</label>
+            <input type="number" id="apPrice" step="0.01" required>
+          </div>
+          <div class="form-group">
+            <label for="apOrigPrice">Original Price</label>
+            <input type="number" id="apOrigPrice" step="0.01" placeholder="Optional">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="apImage">Image URL</label>
+          <input type="url" id="apImage" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label for="apBadge">Badge</label>
+          <input type="text" id="apBadge" placeholder="e.g. Best Seller, New, Sale">
+        </div>
+        <div class="form-group">
+          <label for="apDescription">Description</label>
+          <textarea id="apDescription" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Specs (one per line, format: Key: Value)</label>
+          <textarea id="apSpecs" rows="4" placeholder="Chip: A18 Pro&#10;Display: 6.9&quot;&#10;Camera: 48MP"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="apRating">Rating (0-5)</label>
+            <input type="number" id="apRating" step="0.1" min="0" max="5">
+          </div>
+          <div class="form-group">
+            <label for="apReviews">Reviews Count</label>
+            <input type="number" id="apReviews" min="0">
+          </div>
+        </div>
+        <button type="submit" class="checkout-btn">Save Product</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h2>Shopping Cart</h2>
+      <button class="cart-close" onclick="toggleCart()">&times;</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer" id="cartFooter">
+      <div class="cart-total">
+        <span>Total</span>
+        <span class="total-amount" id="cartTotal">$0.00</span>
+      </div>
+      <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()">Proceed to Checkout</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="checkoutOverlay" onclick="closeCheckout(event)">
+    <div class="modal" id="checkoutModal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Checkout</h2>
+        <button class="modal-close" onclick="closeCheckout()">&times;</button>
+      </div>
+      <form id="checkoutForm" onsubmit="processPayment(event)">
+        <div class="order-summary-mini" id="checkoutSummary"></div>
+        <div class="delivery-section">
+          <h3>Delivery Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="deliveryName">Full Name</label>
+              <input type="text" id="deliveryName" placeholder="John Doe" required>
+            </div>
+            <div class="form-group">
+              <label for="deliveryPhone">Phone Number</label>
+              <input type="tel" id="deliveryPhone" placeholder="+961 3 091 136" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="deliveryAddress">Street Address</label>
+            <input type="text" id="deliveryAddress" placeholder="123 Main Street, Building 5" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="deliveryCity">City</label>
+              <input type="text" id="deliveryCity" placeholder="Beirut" required>
+            </div>
+            <div class="form-group">
+              <label for="deliveryState">State / Region</label>
+              <input type="text" id="deliveryState" placeholder="Optional">
+            </div>
+            <div class="form-group">
+              <label for="deliveryZip">ZIP / Postal Code</label>
+              <input type="text" id="deliveryZip" placeholder="Optional">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="deliveryInstructions">Delivery Instructions (Optional)</label>
+            <textarea id="deliveryInstructions" rows="2" placeholder="Leave at the door, gate code, etc."></textarea>
+          </div>
+          <div class="delivery-methods">
+            <label class="delivery-method selected" data-method="standard" onclick="selectDeliveryMethod(this)">
+              <input type="radio" name="deliveryMethod" value="standard" checked hidden>
+              <span class="delivery-method-icon">📦</span>
+              <span class="delivery-method-info">
+                <span class="delivery-method-name">Standard Delivery</span>
+                <span class="delivery-method-time">5–7 business days</span>
+              </span>
+              <span class="delivery-method-price">Free</span>
+            </label>
+            <label class="delivery-method" data-method="express" onclick="selectDeliveryMethod(this)">
+              <input type="radio" name="deliveryMethod" value="express" hidden>
+              <span class="delivery-method-icon">🚀</span>
+              <span class="delivery-method-info">
+                <span class="delivery-method-name">Express Delivery</span>
+                <span class="delivery-method-time">2–3 business days</span>
+              </span>
+              <span class="delivery-method-price">$9.99</span>
+            </label>
+            <label class="delivery-method" data-method="nextday" onclick="selectDeliveryMethod(this)">
+              <input type="radio" name="deliveryMethod" value="nextday" hidden>
+              <span class="delivery-method-icon">⚡</span>
+              <span class="delivery-method-info">
+                <span class="delivery-method-name">Next Day Delivery</span>
+                <span class="delivery-method-time">1 business day</span>
+              </span>
+              <span class="delivery-method-price">$19.99</span>
+            </label>
+          </div>
+        </div>
+        <div class="payment-section">
+          <h3>Payment Method</h3>
+          <div class="payment-methods-toggle">
+            <label class="payment-method-option selected" data-pmethod="card" onclick="selectPaymentMethod(this)">
+              <input type="radio" name="paymentMethodToggle" value="card" checked hidden>
+              <span class="pm-icon">💳</span>
+              <span class="pm-label">Visa Card</span>
+            </label>
+            <label class="payment-method-option" data-pmethod="cod" onclick="selectPaymentMethod(this)">
+              <input type="radio" name="paymentMethodToggle" value="cod" hidden>
+              <span class="pm-icon">💵</span>
+              <span class="pm-label">Cash on Delivery</span>
+            </label>
+          </div>
+          <div id="cardPaymentFields">
+            <h4 style="font-size:14px;font-weight:600;margin-bottom:12px">Card Details</h4>
+            <div class="card-preview" id="cardPreview">
+              <div class="card-chip">💳</div>
+              <div class="card-number-display" id="cardNumberDisplay">•••• •••• •••• ••••</div>
+              <div class="card-details">
+                <div class="card-holder-display">
+                  <span class="card-label">Card Holder</span>
+                  <span id="cardHolderDisplay">FULL NAME</span>
+                </div>
+                <div class="card-expiry-display">
+                  <span class="card-label">Expires</span>
+                  <span id="cardExpiryDisplay">MM/YY</span>
+                </div>
+              </div>
+              <div class="card-type">VISA</div>
+            </div>
+            <div class="form-group">
+              <label for="cardHolder">Card Holder Name</label>
+              <input type="text" id="cardHolder" placeholder="John Smith" required oninput="updateCardPreview()">
+            </div>
+            <div class="form-group">
+              <label for="cardNumber">Card Number</label>
+              <input type="text" id="cardNumber" placeholder="4111 1111 1111 1111" maxlength="19" required oninput="formatCardNumber(this); updateCardPreview()">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="cardExpiry">Expiry Date</label>
+                <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5" required oninput="formatExpiry(this); updateCardPreview()">
+              </div>
+              <div class="form-group">
+                <label for="cardCvv">CVV</label>
+                <input type="text" id="cardCvv" placeholder="123" maxlength="4" required oninput="this.value=this.value.replace(/\D/g,'')">
+              </div>
+            </div>
+            <div class="secure-badge">
+              <span>🔒</span> Secured with 256-bit encryption
+            </div>
+          </div>
+          <div id="codMessage" style="display:none">
+            <div class="cod-info">
+              <div class="cod-icon">💵</div>
+              <h4>Pay When You Receive</h4>
+              <p>You'll pay the total amount in cash when your order is delivered to your doorstep.</p>
+              <div class="cod-note">No extra fees — you only pay the order total.</div>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="pay-btn" id="payBtn">
+          <span id="payBtnText">Pay $0.00</span>
+          <span id="payBtnLoader" class="loader hidden"></span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="successOverlay" onclick="closeSuccess(event)">
+    <div class="modal modal-success" id="successModal" onclick="event.stopPropagation()">
+      <div class="success-icon">✅</div>
+      <h2>Payment Successful!</h2>
+      <p>Your order has been confirmed.</p>
+      <div class="order-confirmation" id="orderConfirmation"></div>
+      <button class="continue-btn" onclick="closeSuccess(); showPage('products')">Continue Shopping</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="productOverlay" onclick="closeProduct(event)">
+    <div class="modal modal-product" id="productModal" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeProduct()">&times;</button>
+      <div id="productDetail"></div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 MobileStore. All rights reserved. | Secure payments via Visa</p>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
